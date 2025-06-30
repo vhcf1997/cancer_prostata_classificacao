@@ -1,0 +1,8 @@
+                      precision    recall  f1-score   support
+
+Negativo para Câncer       0.83      0.95      0.88        40
+Positivo para Câncer       0.96      0.87      0.92        62
+
+            accuracy                           0.90       102
+           macro avg       0.90      0.91      0.90       102
+        weighted avg       0.91      0.90      0.90       102

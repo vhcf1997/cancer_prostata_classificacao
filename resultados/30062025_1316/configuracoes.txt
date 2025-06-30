@@ -1,0 +1,44 @@
+# ==========================================
+# CONFIGURAÇÕES DA EXECUÇÃO
+# ==========================================
+DATASET_PATH: data_set_cancer_pancreas
+RESULTS_DIR: resultados
+IMG_SIZE: (256, 256)
+NUM_CLASSES: 2
+BATCH_SIZE: 8
+EPOCHS: 1
+USE_IMAGENET: True
+FREEZE_LAYERS: 165
+USE_DATA_AUG: True
+USE_EARLY_STOPPING: True
+START_FOLD: 0
+END_FOLD: None
+SEED: 42
+USE_CLASS_WEIGHTS: True
+CLASS_LABELS: ['Negativo para Câncer', 'Positivo para Câncer']
+
+# ==========================================
+# ARQUITETURA DO MODELO
+# ==========================================
+Backbone: ResNet50V2
+
+# Configuração da Cabeça (Head) do Modelo
+GlobalAveragePooling2D()
+Dense(256, kernel_regularizer=l2(1e-4)) -> BatchNormalization -> ReLU -> Dropout(0.3)
+Dense(128, kernel_regularizer=l2(1e-4)) -> BatchNormalization -> ReLU -> Dropout(0.2)
+Dense(2) -> Softmax
+
+# ==========================================
+# CONFIGURAÇÕES DE COMPILAÇÃO E TREINAMENTO
+# ==========================================
+model.compile(
+    loss='categorical_crossentropy',
+    optimizer=RMSprop(learning_rate=9.999999747378752e-05),
+    metrics=['accuracy']
+)
+
+model.fit(
+    epochs=1,
+    callbacks=[EarlyStopping(monitor='loss', patience=5, restore_best_weights=True)],
+    class_weight=Calculado dinamicamente
+)
